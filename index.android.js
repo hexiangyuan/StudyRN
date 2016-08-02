@@ -12,29 +12,30 @@ import {
 import Home from './home';
 
 class StudyRN extends Component {
+
+  constructor(props){
+    super(props);
+    this.initialRoute={
+      name:'home',
+      component:Home,
+    }
+  }
+
+  configureScene(){
+    return Navigator.SceneConfigs.VerticalDownSwipeJump;
+  }
+
+  renderScene(route,navigator){
+    let Component = route.component;
+    return <Component {...route.params} navigator={navigator}/>
+  }
+
   render() {
-    let defaultName = 'Home';
-    let defaultComponent = Home;
     return (
       <Navigator
-        initialRoute={
-          {
-            name:defaultName,
-            component:defaultComponent,
-          }
-        }
-
-        configureScene={
-          (route)=>{
-            return Navigator.SceneConfigs.VerticalDownSwipeJump;
-          }
-        }
-
-        renderScene={
-          (route,navigator)=>{
-            return <route.component {...route.params} navigator={navigator}/>
-          }
-        }
+        initialRoute={this.initialRoute}
+        configureScene={this.configureScene.bind(this)}
+        renderScene={this.renderScene.bind(this)}
       />
     );
   }
